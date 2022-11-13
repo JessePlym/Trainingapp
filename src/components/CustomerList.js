@@ -15,7 +15,6 @@ export default function CustomerList() {
     {field: "city", sortable: true, filter: true},
     {field: "email", sortable: true, filter: true},
     {field: "phone", sortable: true, filter: true},
-    {field: "content", sortable: true, filter: true},
   ])
 
   useEffect(() => {
