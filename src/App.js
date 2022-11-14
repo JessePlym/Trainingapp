@@ -2,15 +2,19 @@ import CustomerList from "./components/CustomerList";
 import TrainingList from "./components/TrainingList";
 import NavBar from "./components/NavBar";
 
-import {BrowserRouter,  Routes,  Route,  Link} from "react-router-dom"
-import DrawerMenu from "./components/DrawerMenu";
+import { Routes, Route } from "react-router-dom"
+
 
 
 
 function App() {
   return (
     <>
-      <NavBar />
+    <NavBar />
+    <Routes>
+      <Route exact path="/" element={<TrainingList />}/>
+      <Route path="/customers" element={<CustomerList />}/>
+    </Routes>
     </>
   );
 }

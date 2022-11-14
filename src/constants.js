@@ -1,2 +1,2 @@
 export const API_URL = "https://customerrest.herokuapp.com/api/customers";
-export const TABS = ["TRAININGS", "CUSTOMERS"]
+export const PAGES = [{name: "TRAININGS", link: "/"}, {name: "CUSTOMERS", link: "/customers"}]

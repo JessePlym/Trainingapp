@@ -1,27 +1,27 @@
-import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Tabs, Tab } from "@mui/material";
+import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu"
-import { TABS } from "../constants"
-import { BrowserRouter, routes, route } from "react-router-dom"; 
+import { PAGES } from "../constants"
+import { useNavigate } from "react-router-dom"; 
 
-export default function DrawerMenu() {
+export default function DrawerMenu(props) {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
+  console.log(props)
 
-  const handleClick = (index) => {
-    setTabValue(index)
+  const handleClick = (link) => {
+    navigate(link);
     setOpenDrawer(false);
   }
-  console.log(tabValue)
   return (
     <>
       <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <List>
           {
-            TABS.map((tab, index) => (
-              <ListItemButton onClick={() => handleClick(index)} key={index}>
+            PAGES.map((page, index) => (
+              <ListItemButton onClick={() => handleClick(page.link)} key={index}>
                 <ListItemIcon>
-                  <ListItemText>{tab}</ListItemText>
+                    <ListItemText primary={page.name}/>
                 </ListItemIcon>
               </ListItemButton>
             ))
@@ -37,3 +37,4 @@ export default function DrawerMenu() {
     </>
   );
 }
+
