@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { API_URL } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
+  const rowRef = useRef();
 
   const [columnDefs] = useState([
     {field: "firstname", sortable: true, filter: true},
@@ -35,6 +36,7 @@ export default function CustomerList() {
     <>
       <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
         <AgGridReact
+          ref={rowRef}
           rowData={customers}
           columnDefs={columnDefs}
           pagination={true}
