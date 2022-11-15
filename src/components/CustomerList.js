@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { API_URL } from "../constants";
+import { API_URL_CUSTOMER } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -23,7 +23,7 @@ export default function CustomerList(props) {
   }, [])
   
   const getCustomers = () => {
-    fetch(API_URL)
+    fetch(API_URL_CUSTOMER)
     .then(response => { 
       if (response.ok) return response.json();
       else alert("something went wrong getting customers");

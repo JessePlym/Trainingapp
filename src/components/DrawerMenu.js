@@ -1,13 +1,12 @@
 import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu"
 import { PAGES } from "../constants"
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu"
 
-export default function DrawerMenu(props) {
+export default function DrawerMenu() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const navigate = useNavigate();
-  console.log(props)
 
   const handleClick = (link) => {
     navigate(link);
@@ -21,8 +20,9 @@ export default function DrawerMenu(props) {
             PAGES.map((page, index) => (
               <ListItemButton onClick={() => handleClick(page.link)} key={index}>
                 <ListItemIcon>
-                    <ListItemText primary={page.name}/>
+                  {page.icon}
                 </ListItemIcon>
+                <ListItemText primary={page.name}/>
               </ListItemButton>
             ))
           }
