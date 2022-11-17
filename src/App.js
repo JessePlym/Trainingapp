@@ -3,7 +3,7 @@ import TrainingList from "./components/TrainingList";
 import NavBar from "./components/NavBar";
 import { Container } from "@mui/material";
 
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 
 
 
@@ -16,6 +16,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<TrainingList />}/>
         <Route path="/customers" element={<CustomerList />}/>
+        <Route path="*" element={<Navigate to="/"/>}/>
       </Routes>
     </Container>
     </>
