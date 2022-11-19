@@ -9,11 +9,11 @@ export default function CustomerList(props) {
   const rowRef = useRef();
 
   const [columnDefs] = useState([
-    {field: "firstname", sortable: true, filter: true},
-    {field: "lastname", sortable: true, filter: true},
+    {field: "firstname", sortable: true, filter: true, width: 140},
+    {field: "lastname", sortable: true, filter: true, width: 140},
     {field: "streetaddress", sortable: true, filter: true},
-    {field: "postcode", sortable: true, filter: true},
-    {field: "city", sortable: true, filter: true},
+    {field: "postcode", sortable: true, filter: true, width: 140},
+    {field: "city", sortable: true, filter: true, width: 140},
     {field: "email", sortable: true, filter: true},
     {field: "phone", sortable: true, filter: true},
   ])
@@ -34,7 +34,7 @@ export default function CustomerList(props) {
 
   return (
     <>
-      <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
+      <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
         <AgGridReact
           ref={rowRef}
           rowData={customers}
