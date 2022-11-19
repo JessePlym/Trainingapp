@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { API_URL_TRAINING } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -11,11 +11,11 @@ export default function TrainingList() {
 
   const [columnDefs] = useState([
     {field: "date", sortable: true, filter: true, width: 220,
-      valueFormatter: params => dayjs(params.value).format("DD MMMM YYYY HH:mm")
-    }, // MMMM displays full name of month
+      valueFormatter: params => dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm")
+    }, // MMMM displays full name of month and HH 24 hour clock
     {field: "activity", sortable: true, filter: true},
     {field: "duration", headerName: "Duration (min)", sortable: true, filter: true},
-    {field: "customer", headerName: "Customer", sortable: true, filter: true,
+    {field: "customer", headerName: "Customer",
       cellRenderer: params => params.data.customer.firstname + " " + params.data.customer.lastname
     }
   ])
@@ -40,7 +40,7 @@ export default function TrainingList() {
   return (
     <>
       <Stack direction="horizontal" sx={{marginTop: 1, justifyContent: "center"}}>
-        <Button variant="contained" type="button">Add New</Button>
+        <Button variant="outlined" type="button">Add New</Button>
       </Stack>
         <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
           <AgGridReact
