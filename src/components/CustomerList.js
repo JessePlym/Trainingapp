@@ -3,10 +3,13 @@ import { API_URL_CUSTOMER } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { Button, Snackbar, Alert } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddCustomer from "./AddCustomer";
 
 export default function CustomerList(props) {
   const [customers, setCustomers] = useState([]);
+  const [open, setOpen] = useState(false); // for snackbar
   const rowRef = useRef();
 
   const [columnDefs] = useState([
@@ -17,7 +20,16 @@ export default function CustomerList(props) {
     {field: "city", sortable: true, filter: true, width: 140},
     {field: "email", sortable: true, filter: true},
     {field: "phone", sortable: true, filter: true},
+    {cellRenderer: params => 
+      <Button 
+        startIcon={<DeleteIcon />} 
+        size="small" 
+        color="error" 
+        onClick={() => deleteCustomer(params.data)}>
+          Delete
+      </Button>}
   ])
+
 
   useEffect(() => {
     getCustomers();
@@ -46,6 +58,20 @@ export default function CustomerList(props) {
     .catch(err => console.log(err));
   }
 
+  const deleteCustomer = (data) => {
+    if (window.confirm("Are you sure?")) {
+      fetch(data.links[0].href, {method: "DELETE"})
+      .then(response => {
+        if (response.ok) {
+          getCustomers();
+          setOpen(true);
+        }
+        else alert("something went wrong deleting customer");
+      })
+      .catch(err => console.log(err));  
+    }
+  }
+
   return (
     <>
       <AddCustomer addCustomer={addCustomer}/>
@@ -58,7 +84,19 @@ export default function CustomerList(props) {
           paginationPageSize={10}
           suppressCellFocus={true}
         />
-      </div>  
+      </div>
+      <Snackbar 
+        open={open}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+        autoHideDuration={6000} 
+        onClose={() => setOpen(false)}>
+        <Alert 
+          onClose={() => setOpen(false)} 
+          severity="success" 
+          sx={{ width: '100%' }}>
+          Customer deleted successfully!
+        </Alert>
+      </Snackbar>  
     </>
   );
 }

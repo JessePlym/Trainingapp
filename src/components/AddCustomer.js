@@ -1,5 +1,7 @@
-import { Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import { Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Avatar } from "@mui/material";
 import { useState } from "react";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import PersonIcon from "@mui/icons-material/Person";
 
 export const initialCustomerState = {
   firstname: "",
@@ -33,10 +35,18 @@ export default function AddCustomer(props) {
   return (
     <>
       <Stack direction="horizontal" sx={{marginTop: 1, justifyContent: "center"}}>
-        <Button variant="outlined" type="button" onClick={handleOpen}>Add Customer</Button>
+        <Button 
+          variant="outlined" 
+          type="button" 
+          onClick={handleOpen} 
+          startIcon={<PersonAddIcon />}>
+            Add Customer
+        </Button>
       </Stack>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Customer</DialogTitle>
+        <DialogTitle>
+          Add Customer
+        </DialogTitle>
         <DialogContent>
           <TextField 
             autoFocus
