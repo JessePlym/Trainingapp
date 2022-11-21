@@ -3,6 +3,7 @@ import { API_URL_CUSTOMER } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import AddCustomer from "./AddCustomer";
 
 export default function CustomerList(props) {
   const [customers, setCustomers] = useState([]);
@@ -32,8 +33,22 @@ export default function CustomerList(props) {
     .catch(err => console.log(err));
   }
 
+  const addCustomer = (customer) => {
+    fetch(API_URL_CUSTOMER, {
+      method: "POST",
+      headers: {"Content-type" : "application/json"},
+      body: JSON.stringify(customer)
+    })
+    .then(response => {
+      if (response.ok) getCustomers();
+      else alert("something went wrong adding customer"); 
+    })
+    .catch(err => console.log(err));
+  }
+
   return (
     <>
+      <AddCustomer addCustomer={addCustomer}/>
       <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
         <AgGridReact
           ref={rowRef}
