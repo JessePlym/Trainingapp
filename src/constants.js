@@ -7,3 +7,13 @@ export const PAGES = [
   {name: "TRAININGS", link: "/", icon: <FitnessCenterIcon />}, 
   {name: "CUSTOMERS", link: "/customers", icon: <PeopleIcon />}
 ]
+
+export const INITIAL_CUSTOMER_STATE = {
+  firstname: "",
+  lastname: "",
+  streetaddress: "",
+  postcode: "",
+  city: "",
+  email: "",
+  phone: "",
+};

@@ -12,7 +12,7 @@ export default function NavBar() {
         <Toolbar>
           <DrawerMenu />
           <Typography variant="h5" sx={{ marginRight: "auto"}}>
-            Training App
+            Personal Trainer
           </Typography>
         </Toolbar>
       </AppBar> 

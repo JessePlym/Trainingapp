@@ -5,7 +5,9 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { Button, Snackbar, Alert } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer"
 
 export default function CustomerList(props) {
   const [customers, setCustomers] = useState([]);
@@ -18,15 +20,23 @@ export default function CustomerList(props) {
     {field: "streetaddress", sortable: true, filter: true},
     {field: "postcode", sortable: true, filter: true, width: 140},
     {field: "city", sortable: true, filter: true, width: 140},
-    {field: "email", sortable: true, filter: true},
-    {field: "phone", sortable: true, filter: true},
-    {cellRenderer: params => 
+    {field: "email", sortable: true, filter: true, width: 180},
+    {field: "phone", sortable: true, filter: true, width: 140},
+    {width: 140, cellRenderer: params => 
       <Button 
         startIcon={<DeleteIcon />} 
-        size="small" 
+        size="small"
         color="error" 
         onClick={() => deleteCustomer(params.data)}>
           Delete
+      </Button>},
+    {width: 140, cellRenderer: params =>
+      <Button
+        startIcon={<EditIcon />}
+        size="small"
+        color="success"
+        onClick={<EditCustomer />}>
+          Edit
       </Button>}
   ])
 

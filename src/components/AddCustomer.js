@@ -1,22 +1,12 @@
-import { Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Avatar } from "@mui/material";
+import { Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions, TextField} from "@mui/material";
 import { useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import PersonIcon from "@mui/icons-material/Person";
-
-export const initialCustomerState = {
-  firstname: "",
-  lastname: "",
-  streetaddress: "",
-  postcode: "",
-  city: "",
-  email: "",
-  phone: "",
-};
+import { INITIAL_CUSTOMER_STATE } from "../constants";
 
 
-export default function AddCustomer(props) {
+export default function AddCustomer({ addCustomer }) {
   const [open, setOpen] = useState(false);
-  const [customer, setCustomer] = useState(initialCustomerState);
+  const [customer, setCustomer] = useState(INITIAL_CUSTOMER_STATE);
 
   const handleOpen = () => {
     setOpen(true);
@@ -27,8 +17,8 @@ export default function AddCustomer(props) {
   }
 
   const handleAdd = () => {
-    props.addCustomer(customer);
-    setCustomer(initialCustomerState);
+    addCustomer(customer);
+    setCustomer(INITIAL_CUSTOMER_STATE);
     setOpen(false);
   }
 
@@ -53,6 +43,7 @@ export default function AddCustomer(props) {
             value={customer.firstname}
             label="firstname"
             margin="dense"
+            type="text"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, firstname: e.target.value})}
@@ -61,6 +52,7 @@ export default function AddCustomer(props) {
             value={customer.lastname}
             label="lastname"
             margin="dense"
+            type="text"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, lastname: e.target.value})}
@@ -69,6 +61,7 @@ export default function AddCustomer(props) {
             value={customer.streetaddress}
             label="streetaddress"
             margin="dense"
+            type="text"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, streetaddress: e.target.value})}
@@ -77,6 +70,7 @@ export default function AddCustomer(props) {
             value={customer.postcode}
             label="postcode"
             margin="dense"
+            type="number"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, postcode: e.target.value})}
@@ -85,6 +79,7 @@ export default function AddCustomer(props) {
             value={customer.city}
             label="city"
             margin="dense"
+            type="text"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, city: e.target.value})}
@@ -93,6 +88,7 @@ export default function AddCustomer(props) {
             value={customer.email}
             label="email"
             margin="dense"
+            type="email"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, email: e.target.value})}
@@ -101,6 +97,7 @@ export default function AddCustomer(props) {
             value={customer.phone}
             label="phone"
             margin="dense"
+            type="number"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, phone: e.target.value})}
