@@ -4,7 +4,6 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import dayjs from "dayjs";
-import { Button, Stack } from "@mui/material";
 
 export default function TrainingList() {
   const [trainings, setTrainings] = useState([]);
@@ -39,18 +38,15 @@ export default function TrainingList() {
 
   return (
     <>
-      <Stack direction="horizontal" sx={{marginTop: 1, justifyContent: "center"}}>
-        <Button variant="outlined" type="button">Add New</Button>
-      </Stack>
-        <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
-          <AgGridReact
-            rowData={trainings}
-            columnDefs={columnDefs}
-            pagination={true}
-            paginationPageSize={10}
-            suppressCellFocus={true}
-          />
-        </div>
+      <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
+        <AgGridReact
+          rowData={trainings}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={10}
+          suppressCellFocus={true}
+        />
+      </div>
     </>
   );
 }

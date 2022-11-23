@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { API_URL_CUSTOMER } from "../constants";
+import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -7,6 +7,7 @@ import { Button, Snackbar, Alert } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
+import AddTraining from "./AddTraining";
 
 export default function CustomerList(props) {
   const [customers, setCustomers] = useState([]);
@@ -21,6 +22,8 @@ export default function CustomerList(props) {
     {field: "city", sortable: true, filter: true, width: 140},
     {field: "email", sortable: true, filter: true, width: 180},
     {field: "phone", sortable: true, filter: true, width: 140},
+    {width: 140, cellRenderer: params => 
+      <AddTraining customer={params.data} addTraining={addTraining}/>},
     {width: 140, cellRenderer: params => 
       <Button 
         startIcon={<DeleteIcon />} 
@@ -85,6 +88,20 @@ export default function CustomerList(props) {
     .then(response => {
       if (response.ok) getCustomers();
       else alert("something went wrong editing customer");
+    })
+    .catch(err => console.log(err));
+  }
+
+  
+  const addTraining = (training) => {
+    fetch(API_URL_TRAINING, {
+      method: "POST",
+      headers: {"Content-type" : "application/json"},
+      body: JSON.stringify(training)
+    })
+    .then(response => {
+      if (response.ok) getCustomers();
+      else alert("something went wrong adding training")
     })
     .catch(err => console.log(err));
   }
