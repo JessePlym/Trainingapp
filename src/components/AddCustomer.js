@@ -20,7 +20,7 @@ export default function AddCustomer({ addCustomer }) {
 
   return (
     <>
-      <Stack direction="horizontal" sx={{marginTop: 1, justifyContent: "center"}}>
+      <Stack direction="row" sx={{marginTop: 1, justifyContent: "center"}}>
         <Button 
           variant="outlined" 
           type="button" 

@@ -10,8 +10,8 @@ export default function TrainingList() {
 
   const [columnDefs] = useState([
     {field: "date", sortable: true, filter: true, width: 220,
-      valueFormatter: params => dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm")
-    }, // MMMM displays full name of month and HH 24 hour clock
+      valueFormatter: params => !null ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
+    }, // MMMM displays full name of month and HH 24 hour clock. If date is null display empty string
     {field: "activity", sortable: true, filter: true},
     {field: "duration", headerName: "Duration (min)", sortable: true, filter: true},
     {field: "customer", headerName: "Customer",

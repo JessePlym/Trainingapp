@@ -1,4 +1,4 @@
-import { Button, DialogTitle, Dialog, DialogContent, DialogActions, TextField, FormControl, Select, MenuItem, Autocomplete, Input } from "@mui/material";
+import { Button, DialogTitle, Dialog, DialogContent, DialogActions, TextField, FormControl, Autocomplete } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ export default function AddTraining({ customer, AddTraining }) {
   const [trainings, setTrainings] = useState([]);
   const [training, setTraining] = useState(
     {
-      date: "",
+      date: null,
       activity: "",
       duration: 0,
       customer: customer
@@ -19,8 +19,9 @@ export default function AddTraining({ customer, AddTraining }) {
   const navigate = useNavigate();
 
   const handleAddTraining = () => {
+    console.log(training)
     setOpen(false);
-    navigate("/");
+    // navigate("/");
   }
 
   useEffect(() => {
@@ -40,6 +41,9 @@ export default function AddTraining({ customer, AddTraining }) {
     .then(data => setTrainings(data))
     .catch(err => console.log(err));
   }
+
+  // loops through trainings and sets activities to own state. Only sets activity if it doesn't already exist.
+  // Activities are used for Autocomplete options
   const filterTrainings = () => {
     trainings.forEach((training) => {
       if (!(activities.includes(training.activity))) {
@@ -63,9 +67,9 @@ export default function AddTraining({ customer, AddTraining }) {
         <DialogContent>
           <FormControl sx={{width: 350}}>
             <Autocomplete
-              fullWidth
-              value={training.activity}
               options={activities}
+              freeSolo
+              autoSelect
               renderInput={(params) => <TextField {...params} label="Training"/>}
               onChange={(e, newValue) => setTraining({...training, activity: newValue})}
             />
