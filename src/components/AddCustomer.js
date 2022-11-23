@@ -8,12 +8,8 @@ export default function AddCustomer({ addCustomer }) {
   const [open, setOpen] = useState(false);
   const [customer, setCustomer] = useState(INITIAL_CUSTOMER_STATE);
 
-  const handleOpen = () => {
-    setOpen(true);
-  }
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleDialog = () => {
+    setOpen(!open);
   }
 
   const handleAdd = () => {
@@ -28,12 +24,12 @@ export default function AddCustomer({ addCustomer }) {
         <Button 
           variant="outlined" 
           type="button" 
-          onClick={handleOpen} 
+          onClick={handleDialog} 
           startIcon={<PersonAddIcon />}>
             Add Customer
         </Button>
       </Stack>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleDialog}>
         <DialogTitle>
           Add Customer
         </DialogTitle>
@@ -97,14 +93,14 @@ export default function AddCustomer({ addCustomer }) {
             value={customer.phone}
             label="phone"
             margin="dense"
-            type="number"
+            type="text"
             fullWidth
             variant="standard"
             onChange={e => setCustomer({...customer, phone: e.target.value})}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleDialog}>Cancel</Button>
           <Button onClick={handleAdd}>Add</Button>
         </DialogActions>
       </Dialog>

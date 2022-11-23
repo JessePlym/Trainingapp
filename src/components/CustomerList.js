@@ -5,7 +5,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { Button, Snackbar, Alert } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
 
@@ -31,13 +30,8 @@ export default function CustomerList(props) {
           Delete
       </Button>},
     {width: 140, cellRenderer: params =>
-      <Button
-        startIcon={<EditIcon />}
-        size="small"
-        color="success"
-        onClick={<EditCustomer />}>
-          Edit
-      </Button>}
+      <EditCustomer data={params.data} updateCustomer={updateCustomer}/>  
+    }
   ])
 
 
@@ -80,6 +74,19 @@ export default function CustomerList(props) {
       })
       .catch(err => console.log(err));  
     }
+  }
+
+  const updateCustomer = (url, customer) => {
+    fetch(url, {
+      method: "PUT",
+      headers: {"Content-type" : "application/json"},
+      body: JSON.stringify(customer)
+    })
+    .then(response => {
+      if (response.ok) getCustomers();
+      else alert("something went wrong editing customer");
+    })
+    .catch(err => console.log(err));
   }
 
   return (
