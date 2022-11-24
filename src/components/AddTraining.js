@@ -1,10 +1,16 @@
-import { Button, DialogTitle, Dialog, DialogContent, DialogActions, TextField, FormControl, Autocomplete } from "@mui/material";
+import { Button, DialogTitle, 
+  Dialog, DialogContent, 
+  DialogActions, TextField, 
+  FormControl, Autocomplete, 
+  Stack, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL_TRAINING } from "../constants";
+import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-export default function AddTraining({ customer, AddTraining }) {
+export default function AddTraining({ customer, addTraining }) {
   const [open, setOpen] = useState(false);
   const [trainings, setTrainings] = useState([]);
   const [training, setTraining] = useState(
@@ -18,10 +24,12 @@ export default function AddTraining({ customer, AddTraining }) {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
 
+  //TODO
   const handleAddTraining = () => {
-    console.log(training)
+    console.log(training);
+    addTraining(training);
     setOpen(false);
-    // navigate("/");
+    navigate("/");
   }
 
   useEffect(() => {
@@ -65,24 +73,43 @@ export default function AddTraining({ customer, AddTraining }) {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add Training</DialogTitle>
         <DialogContent>
-          <FormControl sx={{width: 350}}>
-            <Autocomplete
-              options={activities}
-              freeSolo
-              autoSelect
-              renderInput={(params) => <TextField {...params} label="Training"/>}
-              onChange={(e, newValue) => setTraining({...training, activity: newValue})}
-            />
-          </FormControl>
-          <FormControl sx={{width: 350}}>
-            <TextField
-              value={training.duration}
-              label="Duration"
-              margin="dense"
-              type="number"
-              onChange={e => setTraining({...training, duration: e.target.value})}
-            />
-          </FormControl>
+          <Stack direction="row" spacing={2} width="auto" sx={{alignItems: "center", marginBottom: 1}}>
+            <FormControl fullWidth >
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker 
+                  value={training.date}
+                  label="Date"
+                  disablePast
+                  minutesStep={1}
+                  onChange={(newValue) => setTraining({...training, date: newValue})}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+            <FormControl fullWidth >
+              <TextField
+                value={training.duration}
+                label="Duration"
+                margin="dense"
+                type="number"
+                onChange={e => setTraining({...training, duration: e.target.value})}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">min</InputAdornment>,
+                }}
+              />
+            </FormControl>
+          </Stack>
+          <Stack direction="row" width="auto">
+            <FormControl fullWidth>
+              <Autocomplete
+                options={activities}
+                freeSolo
+                autoSelect
+                renderInput={(params) => <TextField {...params} label="Training"/>}
+                onChange={(e, newValue) => setTraining({...training, activity: newValue})}
+              />
+            </FormControl>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>  

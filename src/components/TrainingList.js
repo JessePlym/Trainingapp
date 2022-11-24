@@ -32,7 +32,7 @@ export default function TrainingList() {
 
   useEffect(() => {
     getTrainings();
-  }, [])
+  }, [trainings])
 
   
 
