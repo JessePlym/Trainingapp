@@ -100,7 +100,7 @@ export default function CustomerList(props) {
       body: JSON.stringify(training)
     })
     .then(response => {
-      if (response.ok) getCustomers();
+      if (response.ok) return;
       else alert("something went wrong adding training")
     })
     .catch(err => console.log(err));

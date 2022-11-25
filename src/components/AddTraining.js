@@ -6,9 +6,12 @@ import { Button, DialogTitle,
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL_TRAINING } from "../constants";
+import { API_URL_GETTRAINING } from "../constants";
 import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc)
 
 export default function AddTraining({ customer, addTraining }) {
   const [open, setOpen] = useState(false);
@@ -18,18 +21,31 @@ export default function AddTraining({ customer, addTraining }) {
       date: null,
       activity: "",
       duration: 0,
-      customer: customer
+      customer: customer.links[0].href 
     }
   )
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
 
+  //setTraining({...training, duration: 20});
   //TODO
   const handleAddTraining = () => {
-    console.log(training);
     addTraining(training);
     setOpen(false);
     navigate("/");
+  }
+
+  const changeDate = (date) => {
+    //date = dayjs(training.date).add(2, "hour").toISOString();
+    if (date != null) {
+      setTraining({...training, date: dayjs(date).toISOString()});
+    } else {
+      setTraining({...training, date: ""});
+    }
+    
+    console.log(date);
+    //setTraining({...training, date: dayjs(training.date).toISOString()});
+    console.log(training.date);
   }
 
   useEffect(() => {
@@ -41,7 +57,7 @@ export default function AddTraining({ customer, addTraining }) {
   })
 
   const getTrainings = () => {
-    fetch(API_URL_TRAINING)
+    fetch(API_URL_GETTRAINING)
     .then(response => {
       if (response.ok) return response.json();
       else alert("something went wrong getting trainings")
@@ -80,9 +96,12 @@ export default function AddTraining({ customer, addTraining }) {
                   value={training.date}
                   label="Date"
                   disablePast
-                  minutesStep={1}
-                  onChange={(newValue) => setTraining({...training, date: newValue})}
-                  renderInput={(params) => <TextField {...params} />}
+                  inputFormat="DD.MM.YYYY HH:mm"
+                  disable
+                  onChange={date => changeDate(date)}
+                  renderInput={(params) => 
+                    <TextField {...params} inputProps={{...params.inputProps, readOnly: true}} />
+                  }
                 />
               </LocalizationProvider>
             </FormControl>
