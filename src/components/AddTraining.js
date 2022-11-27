@@ -4,14 +4,12 @@ import { Button, DialogTitle,
   FormControl, Autocomplete, 
   Stack, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL_GETTRAINING } from "../constants";
 import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc)
 
 export default function AddTraining({ customer, addTraining }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +25,6 @@ export default function AddTraining({ customer, addTraining }) {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
 
-  //TODO
   const handleAddTraining = () => {
     setOpen(false);
     addTraining(training);
@@ -45,11 +42,11 @@ export default function AddTraining({ customer, addTraining }) {
 
   useEffect(() => {
      getTrainings();
-  }, [trainings]) 
-
-  useEffect(() => {
-     filterTrainings();
   }, [trainings])
+  
+  useEffect(() => {
+    filterTrainings();
+  })
 
   const getTrainings = () => {
     fetch(API_URL_GETTRAINING)
@@ -63,13 +60,13 @@ export default function AddTraining({ customer, addTraining }) {
 
   // loops through trainings and sets activities to own state. Only sets activity if it doesn't already exist.
   // Activities are used for Autocomplete options
-  const filterTrainings = () => {
+  const filterTrainings = useCallback(() => {
     trainings.forEach((training) => {
       if (!(activities.includes(training.activity))) {
         setActivities([...activities, training.activity]);
       }
     })
-  }
+  }, [trainings, activities])
 
   return (
     <>
