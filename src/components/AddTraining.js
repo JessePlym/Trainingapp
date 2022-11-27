@@ -27,34 +27,29 @@ export default function AddTraining({ customer, addTraining }) {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
 
-  //setTraining({...training, duration: 20});
   //TODO
   const handleAddTraining = () => {
-    addTraining(training);
     setOpen(false);
+    addTraining(training);
     navigate("/");
   }
 
   const changeDate = (date) => {
-    //date = dayjs(training.date).add(2, "hour").toISOString();
     if (date != null) {
       setTraining({...training, date: dayjs(date).toISOString()});
     } else {
       setTraining({...training, date: ""});
     }
-    
-    console.log(date);
-    //setTraining({...training, date: dayjs(training.date).toISOString()});
-    console.log(training.date);
+
   }
 
   useEffect(() => {
      getTrainings();
-  }, []) 
+  }, [trainings]) 
 
   useEffect(() => {
      filterTrainings();
-  })
+  }, [trainings])
 
   const getTrainings = () => {
     fetch(API_URL_GETTRAINING)
@@ -75,7 +70,6 @@ export default function AddTraining({ customer, addTraining }) {
       }
     })
   }
-
 
   return (
     <>

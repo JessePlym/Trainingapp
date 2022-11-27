@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -8,11 +8,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
 import AddTraining from "./AddTraining";
+import Loader from "./Loader";
 
-export default function CustomerList(props) {
+export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false); // for snackbar
-  const rowRef = useRef();
 
   const [columnDefs] = useState([
     {field: "firstname", sortable: true, filter: true, width: 140},
@@ -108,17 +108,19 @@ export default function CustomerList(props) {
 
   return (
     <>
-      <AddCustomer addCustomer={addCustomer}/>
-      <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
-        <AgGridReact
-          ref={rowRef}
-          rowData={customers}
-          columnDefs={columnDefs}
-          pagination={true}
-          paginationPageSize={10}
-          suppressCellFocus={true}
-        />
-      </div>
+      {customers.length === 0 ? <Loader /> :
+      <div>
+        <AddCustomer addCustomer={addCustomer}/>
+        <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
+          <AgGridReact
+            rowData={customers}
+            columnDefs={columnDefs}
+            pagination={true}
+            paginationPageSize={10}
+            suppressCellFocus={true}
+          />
+        </div>
+      </div> }
       <Snackbar 
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }} 

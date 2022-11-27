@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import dayjs from "dayjs";
 import { Button, Snackbar, Alert } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Loader from "./Loader";
 
 export default function TrainingList() {
   const [trainings, setTrainings] = useState([]);
@@ -57,15 +58,17 @@ export default function TrainingList() {
 
   return (
     <>
-      <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
-        <AgGridReact
-          rowData={trainings}
-          columnDefs={columnDefs}
-          pagination={true}
-          paginationPageSize={10}
-          suppressCellFocus={true}
-        />
-      </div>
+      {trainings.length === 0 ? <Loader /> :
+        <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
+          <AgGridReact
+            rowData={trainings}
+            columnDefs={columnDefs}
+            pagination={true}
+            paginationPageSize={10}
+            suppressCellFocus={true}
+          />
+        </div>
+      }
       <Snackbar 
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }} 
