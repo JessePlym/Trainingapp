@@ -6,7 +6,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import dayjs from "dayjs";
 import { Button, Snackbar, Alert } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Loader from "./Loader";
+import Spinner from "./Spinner";
 
 export default function TrainingList() {
   const [trainings, setTrainings] = useState([]);
@@ -58,7 +58,7 @@ export default function TrainingList() {
 
   return (
     <>
-      {trainings.length === 0 ? <Loader /> :
+      {trainings.length === 0 ? <Spinner /> :
         <div className="ag-theme-material" style={{height: 600, width: "90%", margin: "auto"}}>
           <AgGridReact
             rowData={trainings}

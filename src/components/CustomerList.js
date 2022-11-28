@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
 import AddTraining from "./AddTraining";
-import Loader from "./Loader";
+import Spinner from "./Spinner";
 
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
@@ -108,7 +108,7 @@ export default function CustomerList() {
 
   return (
     <>
-      {customers.length === 0 ? <Loader /> :
+      {customers.length === 0 ? <Spinner /> :
       <div>
         <AddCustomer addCustomer={addCustomer}/>
         <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
