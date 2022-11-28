@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Button, Snackbar, Alert, Stack, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
 import AddTraining from "./AddTraining";
@@ -104,22 +103,12 @@ export default function CustomerList() {
     })
     .catch(err => console.log(err));
   }
-  //TODO
-  const exportFile = () => {
-    gridRef.current.exportDataAsCsv();
-  }
 
   return (
     <>
       {customers.length === 0 ? <Spinner /> :
       <Box>
-        <Stack direction="row" gap={5} sx={{marginTop: 1, justifyContent: "center"}}>
-          <Button 
-            startIcon={<FileDownloadIcon />}
-            variant="outlined"
-            onClick={exportFile}>
-              Export
-          </Button>
+        <Stack direction="row" gap={5} sx={{margin: 1, justifyContent: "center"}}>
           <AddCustomer addCustomer={addCustomer}/>
         </Stack>
         <Box sx={{ height: 600, width: "100%", margin: "auto" }}>
@@ -130,6 +119,7 @@ export default function CustomerList() {
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}
+            components={{ Toolbar: GridToolbarExport }}
             sx={{
               boxShadow: 2,
               border: 2,
