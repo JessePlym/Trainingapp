@@ -20,15 +20,13 @@ export default function AddCustomer({ addCustomer }) {
 
   return (
     <>
-      <Stack direction="row" sx={{marginTop: 1, justifyContent: "center"}}>
-        <Button 
-          variant="outlined" 
-          type="button" 
-          onClick={handleDialog} 
-          startIcon={<PersonAddIcon />}>
-            Add Customer
-        </Button>
-      </Stack>
+      <Button 
+        variant="outlined" 
+        type="button" 
+        onClick={handleDialog} 
+        startIcon={<PersonAddIcon />}>
+          Add Customer
+      </Button>
       <Dialog open={open} onClose={handleDialog}>
         <DialogTitle>
           Add Customer

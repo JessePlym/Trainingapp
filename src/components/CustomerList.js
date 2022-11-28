@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
-import { Button, Snackbar, Alert } from "@mui/material";
+import { Button, Snackbar, Alert, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer"
 import AddTraining from "./AddTraining";
@@ -13,6 +14,7 @@ import Spinner from "./Spinner";
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false); // for snackbar
+  const gridRef = useRef();
 
   const [columnDefs] = useState([
     {field: "firstname", sortable: true, filter: true, width: 140},
@@ -36,7 +38,7 @@ export default function CustomerList() {
       <EditCustomer data={params.data} updateCustomer={updateCustomer}/>  
     }
   ])
-
+  
 
   useEffect(() => {
     getCustomers();
@@ -106,13 +108,28 @@ export default function CustomerList() {
     .catch(err => console.log(err));
   }
 
+  
+  const exportFile = () => {
+    gridRef.current.exportDataAsCsv();
+  }
+
   return (
     <>
       {customers.length === 0 ? <Spinner /> :
       <div>
-        <AddCustomer addCustomer={addCustomer}/>
+        <Stack direction="row" gap={5} sx={{marginTop: 1, justifyContent: "center"}}>
+          <Button 
+            startIcon={<FileDownloadIcon />}
+            variant="outlined"
+            onClick={exportFile}>
+              Export
+          </Button>
+          <AddCustomer addCustomer={addCustomer}/>
+        </Stack>
         <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
           <AgGridReact
+            ref={gridRef}
+            onGridReady={params => gridRef.current = params.api}
             rowData={customers}
             columnDefs={columnDefs}
             pagination={true}
