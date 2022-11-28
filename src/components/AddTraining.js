@@ -21,7 +21,7 @@ export default function AddTraining({ customer, addTraining }) {
       date: null,
       activity: "",
       duration: 0,
-      customer: customer.links[0].href 
+      customer: customer.id 
     }
   )
   const [activities, setActivities] = useState([]);

@@ -1,9 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-material.css";
-import { Button, Snackbar, Alert, Stack } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { Button, Snackbar, Alert, Stack, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddCustomer from "./AddCustomer";
@@ -16,30 +14,29 @@ export default function CustomerList() {
   const [open, setOpen] = useState(false); // for snackbar
   const gridRef = useRef();
 
-  const [columnDefs] = useState([
-    {field: "firstname", sortable: true, filter: true, width: 140},
-    {field: "lastname", sortable: true, filter: true, width: 140},
-    {field: "streetaddress", sortable: true, filter: true},
-    {field: "postcode", sortable: true, filter: true, width: 140},
-    {field: "city", sortable: true, filter: true, width: 140},
-    {field: "email", sortable: true, filter: true, width: 180},
-    {field: "phone", sortable: true, filter: true, width: 140},
-    {width: 140, cellRenderer: params => 
-      <AddTraining customer={params.data} addTraining={addTraining}/>},
-    {width: 140, cellRenderer: params => 
+  const [columns] = useState([
+    {field: "firstname", headerName: "Firstname", sortable: true, filter: true, width: 140},
+    {field: "lastname", headerName: "Lastname", sortable: true, filter: true, width: 140},
+    {field: "streetaddress", headerName: "Streetaddress", sortable: true, filter: true, width: 160},
+    {field: "postcode", headerName: "Postcode", sortable: true, filter: true, width: 140},
+    {field: "city", headerName: "City", sortable: true, filter: true, width: 140},
+    {field: "email", headerName: "Email", sortable: true, filter: true, width: 180},
+    {field: "phone", headerName: "Phone", sortable: true, filter: true, width: 140},
+    {field: "add", type: "actions", width: 140, renderCell: params => 
+      <AddTraining customer={params} addTraining={addTraining}/>},
+    {field: "delete", type: "actions", width: 140, renderCell: params => 
       <Button 
         startIcon={<DeleteIcon />} 
         size="small"
         color="error" 
-        onClick={() => deleteCustomer(params.data)}>
+        onClick={() => deleteCustomer(params.row)}>
           Delete
       </Button>},
-    {width: 140, cellRenderer: params =>
-      <EditCustomer data={params.data} updateCustomer={updateCustomer}/>  
+    {field: "edit", type: "actions", width: 140, renderCell: params =>
+      <EditCustomer data={params} updateCustomer={updateCustomer}/>  
     }
   ])
   
-
   useEffect(() => {
     getCustomers();
   }, [])
@@ -115,7 +112,7 @@ export default function CustomerList() {
   return (
     <>
       {customers.length === 0 ? <Spinner /> :
-      <div>
+      <Box>
         <Stack direction="row" gap={5} sx={{marginTop: 1, justifyContent: "center"}}>
           <Button 
             startIcon={<FileDownloadIcon />}
@@ -125,18 +122,24 @@ export default function CustomerList() {
           </Button>
           <AddCustomer addCustomer={addCustomer}/>
         </Stack>
-        <div className="ag-theme-material" style={{height: 550, width: "100%", margin: "auto"}}>
-          <AgGridReact
+        <Box sx={{ height: 600, width: "100%", margin: "auto" }}>
+          <DataGrid
             ref={gridRef}
-            onGridReady={params => gridRef.current = params.api}
-            rowData={customers}
-            columnDefs={columnDefs}
-            pagination={true}
-            paginationPageSize={10}
-            suppressCellFocus={true}
-          />
-        </div>
-      </div> }
+            getRowId={(row) => row.links[0].href}
+            rows={customers}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            sx={{
+              boxShadow: 2,
+              border: 2,
+              borderColor: 'primary.light',
+              '& .MuiDataGrid-cell:hover': {
+                color: 'primary.main',
+              },
+            }}/>
+        </Box>
+      </Box> }
       <Snackbar 
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }} 

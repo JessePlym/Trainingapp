@@ -11,19 +11,19 @@ export default function EditCustomer({ data, updateCustomer}) {
     setOpen(!open);
     if (open === false) {
       setCustomer({
-        firstname: data.firstname,
-        lastname: data.lastname,
-        streetaddress: data.streetaddress,
-        postcode: data.postcode,
-        city: data.city,
-        email: data.email,
-        phone: data.phone
+        firstname: data.row.firstname,
+        lastname: data.row.lastname,
+        streetaddress: data.row.streetaddress,
+        postcode: data.row.postcode,
+        city: data.row.city,
+        email: data.row.email,
+        phone: data.row.phone
       })
     }
   }
 
   const handleUpdate = () => {
-    updateCustomer(data.links[0].href, customer);
+    updateCustomer(data.id, customer);
     setOpen(false);
   }
   return (
