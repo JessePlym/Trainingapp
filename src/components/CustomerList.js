@@ -24,7 +24,7 @@ export default function CustomerList() {
     {field: "city", sortable: true, filter: true, width: 140},
     {field: "email", sortable: true, filter: true, width: 180},
     {field: "phone", sortable: true, filter: true, width: 140},
-    {width: 140, cellRenderer: params => 
+    {width: 140, hide: true, cellRenderer: params => 
       <AddTraining customer={params.data} addTraining={addTraining}/>},
     {width: 140, cellRenderer: params => 
       <Button 
@@ -107,8 +107,7 @@ export default function CustomerList() {
     })
     .catch(err => console.log(err));
   }
-
-  
+  //TODO
   const exportFile = () => {
     gridRef.current.exportDataAsCsv();
   }
