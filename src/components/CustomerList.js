@@ -117,8 +117,7 @@ export default function CustomerList() {
             getRowId={(row) => row.links[0].href}
             rows={customers}
             columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            autoPageSize
             components={{ Toolbar: GridToolbarExport }}
             sx={{
               boxShadow: 2,

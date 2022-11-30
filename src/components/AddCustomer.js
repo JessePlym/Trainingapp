@@ -1,4 +1,4 @@
-import { Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions, TextField} from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField} from "@mui/material";
 import { useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { INITIAL_CUSTOMER_STATE } from "../constants";

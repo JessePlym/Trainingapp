@@ -66,7 +66,7 @@ export default function TrainingList() {
           <DataGrid
             rows={trainings}
             columns={columns}
-            pageSize={10}
+            autoPageSize
             disableSelectionOnClick
             sx={{
               boxShadow: 2,
