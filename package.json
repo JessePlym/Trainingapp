@@ -1,6 +1,7 @@
 {
   "name": "trainingapp",
   "version": "0.1.0",
+  "homepage": "https://JessePlym.github.io/PersonalTrainerApp",
   "private": true,
   "dependencies": {
     "@date-io/dayjs": "^2.16.0",
@@ -23,9 +24,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "recharts": "^2.1.16",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -48,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
