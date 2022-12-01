@@ -11,11 +11,11 @@ export default function TrainingList() {
   const [open, setOpen] = useState(false); // for opening snackbar
 
   const [columns] = useState([
-    {field: "date", headerName: "Date", sortable: true, filter: true, width: 220,
+    {field: "date", headerName: "Date", width: 220,
       valueFormatter: params => params.value !== null ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
     }, // MMMM displays full name of month and HH 24 hour clock. If date is null display empty string
-    {field: "activity", headerName: "Activity", sortable: true, filter: true, width: 140},
-    {field: "duration", headerName: "Duration (min)", sortable: true, filter: true, width: 140},
+    {field: "activity", headerName: "Activity", width: 140},
+    {field: "duration", headerName: "Duration (min)", width: 140},
     {field: "customer", headerName: "Customer", width: 140,
       renderCell: params => getFullName(params)
     },

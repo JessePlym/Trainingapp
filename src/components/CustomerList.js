@@ -14,13 +14,13 @@ export default function CustomerList() {
   const gridRef = useRef();
 
   const [columns] = useState([
-    {field: "firstname", headerName: "Firstname", sortable: true, filter: true, width: 140},
-    {field: "lastname", headerName: "Lastname", sortable: true, filter: true, width: 140},
-    {field: "streetaddress", headerName: "Streetaddress", sortable: true, filter: true, width: 160},
-    {field: "postcode", headerName: "Postcode", sortable: true, filter: true, width: 140},
-    {field: "city", headerName: "City", sortable: true, filter: true, width: 140},
-    {field: "email", headerName: "Email", sortable: true, filter: true, width: 180},
-    {field: "phone", headerName: "Phone", sortable: true, filter: true, width: 140},
+    {field: "firstname", headerName: "Firstname", width: 140},
+    {field: "lastname", headerName: "Lastname", width: 140},
+    {field: "streetaddress", headerName: "Streetaddress", width: 160},
+    {field: "postcode", headerName: "Postcode", width: 140},
+    {field: "city", headerName: "City", width: 140},
+    {field: "email", headerName: "Email", width: 180},
+    {field: "phone", headerName: "Phone", width: 140},
     {field: "add", type: "actions", width: 140, renderCell: params => 
       <AddTraining customer={params} addTraining={addTraining}/>},
     {field: "delete", type: "actions", width: 140, renderCell: params => 
