@@ -14,16 +14,16 @@ export default function CustomerList() {
   const gridRef = useRef();
 
   const [columns] = useState([
-    {field: "firstname", headerName: "Firstname", width: 140},
-    {field: "lastname", headerName: "Lastname", width: 140},
-    {field: "streetaddress", headerName: "Streetaddress", width: 160},
-    {field: "postcode", headerName: "Postcode", width: 140},
-    {field: "city", headerName: "City", width: 140},
-    {field: "email", headerName: "Email", width: 180},
-    {field: "phone", headerName: "Phone", width: 140},
-    {field: "add", type: "actions", width: 140, renderCell: params => 
+    {field: "firstname", headerName: "Firstname", flex: 1},
+    {field: "lastname", headerName: "Lastname", flex: 1},
+    {field: "streetaddress", headerName: "Streetaddress", flex: 2},
+    {field: "postcode", headerName: "Postcode", flex: 1},
+    {field: "city", headerName: "City", flex: 1},
+    {field: "email", headerName: "Email", flex: 2},
+    {field: "phone", headerName: "Phone", flex: 1.5},
+    {field: "add", type: "actions", flex: 1, renderCell: params => 
       <AddTraining customer={params} addTraining={addTraining}/>},
-    {field: "delete", type: "actions", width: 140, renderCell: params => 
+    {field: "delete", type: "actions", flex: 1, renderCell: params => 
       <Button 
         startIcon={<DeleteIcon />} 
         size="small"
@@ -31,7 +31,7 @@ export default function CustomerList() {
         onClick={() => deleteCustomer(params.row)}>
           Delete
       </Button>},
-    {field: "edit", type: "actions", width: 140, renderCell: params =>
+    {field: "edit", type: "actions", flex: 1, renderCell: params =>
       <EditCustomer data={params} updateCustomer={updateCustomer}/>  
     }
   ])
