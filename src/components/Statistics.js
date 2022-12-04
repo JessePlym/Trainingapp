@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
-import { BarChart, XAxis, YAxis, Bar } from "recharts";
+import { BarChart, XAxis, YAxis, Bar, Tooltip, Legend } from "recharts";
 import { API_URL_GETTRAINING } from "../constants";
 import Spinner from "./Spinner";
 
@@ -16,14 +16,11 @@ export default function Statistics() {
   Object.entries(data).forEach((item) => {
     durations.push((_.sumBy(item[1], i => i.duration)));
   });
-  //console.log(data);
-  console.log(durations);
-  console.log(activityNames);
   
   // adds durations and activitynames to chartData by looping.
   // values in durations and activityNames are in corresponding order
   for (let i = 0; i < activityNames.length; i++) {
-    chartData.push({activity: activityNames[i], duration: durations[i]});
+    chartData.push({activity: activityNames[i], Duration: durations[i]});
   }
 
   useEffect(() => {
@@ -51,10 +48,12 @@ export default function Statistics() {
   return (
     <>
     { chartData.length === 0 ? <Spinner /> :
-      <BarChart width={1100} height={300} data={chartData}>
+      <BarChart width={1100} height={300} data={chartData} margin={{top: 20}} padding={{left: 10}}>
         <XAxis dataKey="activity"/>
-        <YAxis />
-        <Bar dataKey="duration" fill="#8884d8"/>
+        <YAxis label={{value: "Duration (min)", angle: -90, position: "insideLeft"}} />
+        <Tooltip />
+        <Legend verticalAlign="top"/>
+        <Bar dataKey="Duration" fill="#8884d8" maxBarSize={150}/>
       </BarChart>
       }
     </>
