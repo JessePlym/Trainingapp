@@ -8,10 +8,12 @@ export default function Statistics() {
   const [activities, setActivities] = useState([]);
   
   const chartData = [];
+  
   // Groups all activities by activity name and sets object to data variable
   const data = _.groupBy(activities, "activity");
   const durations = [];
   const activityNames = Object.keys(data);
+
   // loops through each item in data array and adds all durations to own array got from sumBy function 
   Object.entries(data).forEach((item) => {
     durations.push((_.sumBy(item[1], i => i.duration)));

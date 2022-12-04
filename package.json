@@ -1,7 +1,7 @@
 {
-  "name": "trainingapp",
+  "name": "personaltrainer",
   "version": "0.1.0",
-  "homepage": "https://JessePlym.github.io/Trainingapp",
+  "homepage": "https://JessePlym.github.io/PersonalTrainer",
   "private": true,
   "dependencies": {
     "@date-io/dayjs": "^2.16.0",
