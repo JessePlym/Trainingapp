@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL_GETTRAINING } from "../constants";
-import { DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
@@ -28,6 +28,7 @@ export default function AddTraining({ customer, addTraining }) {
   const navigate = useNavigate();
 
   const handleAddTraining = () => {
+    setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true)}));
     setOpen(false);
     addTraining(training);
     navigate("/");
@@ -35,7 +36,7 @@ export default function AddTraining({ customer, addTraining }) {
 
   const changeDate = (date) => {
     if (date != null) {
-      setTraining({...training, date: dayjs(date).utc(true).toISOString()});
+      setTraining({...training, date: date.toISOString()});
     } else {
       setTraining({...training, date: ""});
     }
@@ -85,7 +86,7 @@ export default function AddTraining({ customer, addTraining }) {
           <Stack direction="row" spacing={2} width="auto" sx={{alignItems: "center", marginBottom: 1}}>
             <FormControl fullWidth >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
+                <DateTimePicker 
                   value={training.date}
                   label="Date"
                   disablePast
