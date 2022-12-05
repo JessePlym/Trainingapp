@@ -11,14 +11,10 @@ export default function Statistics() {
   
   // Groups all activities by activity name and sets object to data variable
   const data = _.groupBy(activities, "activity");
-  const durations = [];
+  // maps data array and adds all durations to own new array got from sumBy function 
+  const durations = Object.entries(data).map((item) => ((_.sumBy(item[1], i => i.duration))));;
   const activityNames = Object.keys(data);
 
-  // loops through each item in data array and adds all durations to own array got from sumBy function 
-  Object.entries(data).forEach((item) => {
-    durations.push((_.sumBy(item[1], i => i.duration)));
-  });
-  
   // adds durations and activitynames to chartData by looping.
   // values in durations and activityNames are in corresponding order
   for (let i = 0; i < activityNames.length; i++) {
