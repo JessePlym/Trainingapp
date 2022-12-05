@@ -39,7 +39,6 @@ export default function EditCustomer({ data, updateCustomer}) {
         <DialogTitle>Edit Customer Information</DialogTitle>
         <DialogContent>
         <TextField 
-            autoFocus
             value={customer.firstname}
             label="firstname"
             margin="dense"

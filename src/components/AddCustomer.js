@@ -33,7 +33,6 @@ export default function AddCustomer({ addCustomer }) {
         </DialogTitle>
         <DialogContent>
           <TextField 
-            autoFocus
             value={customer.firstname}
             label="firstname"
             margin="dense"
