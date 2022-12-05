@@ -11,7 +11,7 @@ export default function TrainingList() {
   const [open, setOpen] = useState(false); // for opening snackbar
 
   const [columns] = useState([
-    {field: "date", headerName: "Date", flex: 2,
+    {field: "date", headerName: "Date", flex: 2 ,
       valueFormatter: params => params.value !== null ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
     }, // MMMM displays full name of month and HH 24 hour clock. If date is null display empty string
     {field: "activity", headerName: "Activity", flex: 1},
@@ -19,7 +19,7 @@ export default function TrainingList() {
     {field: "customer", headerName: "Customer", flex: 1,
       renderCell: params => getFullName(params)
     },
-    {field: "actions", type: "actions", flex: 1, renderCell: params => 
+    {field: "delete", headerName: "", flex: 1, renderCell: params => 
       <Button startIcon={<DeleteIcon />} size="small" color="error" onClick={() => deleteTraining(params.row.id)}> 
         Delete
       </Button>

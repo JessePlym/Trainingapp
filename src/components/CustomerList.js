@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
 import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Button, Snackbar, Alert, Stack, Box } from "@mui/material";
@@ -11,7 +11,6 @@ import Spinner from "./Spinner";
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false); // for snackbar
-  const gridRef = useRef();
 
   const [columns] = useState([
     {field: "firstname", headerName: "Firstname", flex: 1},
@@ -21,9 +20,9 @@ export default function CustomerList() {
     {field: "city", headerName: "City", flex: 1},
     {field: "email", headerName: "Email", flex: 2},
     {field: "phone", headerName: "Phone", flex: 1.5},
-    {field: "add", type: "actions", flex: 1, renderCell: params => 
+    {field: "add", headerName: "", flex: 1, renderCell: params => 
       <AddTraining customer={params} addTraining={addTraining}/>},
-    {field: "delete", type: "actions", flex: 1, renderCell: params => 
+    {field: "delete", headerName: "", flex: 1, renderCell: params => 
       <Button 
         startIcon={<DeleteIcon />} 
         size="small"
@@ -31,7 +30,7 @@ export default function CustomerList() {
         onClick={() => deleteCustomer(params.row)}>
           Delete
       </Button>},
-    {field: "edit", type: "actions", flex: 1, renderCell: params =>
+    {field: "edit", headerName: "", flex: 1, renderCell: params =>
       <EditCustomer data={params} updateCustomer={updateCustomer}/>  
     }
   ])
@@ -113,7 +112,6 @@ export default function CustomerList() {
         </Stack>
         <Box sx={{ height: 600, width: "100%", margin: "auto" }}>
           <DataGrid
-            ref={gridRef}
             getRowId={(row) => row.links[0].href}
             rows={customers}
             columns={columns}
