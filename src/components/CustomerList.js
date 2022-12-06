@@ -11,6 +11,7 @@ import Spinner from "./Spinner";
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false); // for snackbar
+  const [fetchError, setFetchError] = useState("");
 
   const [columns] = useState([
     {field: "firstname", headerName: "Firstname", flex: 1},
@@ -39,73 +40,82 @@ export default function CustomerList() {
     getCustomers();
   }, [])
   
-  const getCustomers = () => {
-    fetch(API_URL_CUSTOMER)
-    .then(response => { 
-      if (response.ok) return response.json();
-      else alert("something went wrong getting customers");
-    })
-    .then(data => setCustomers(data.content))
-    .catch(err => console.log(err));
-  }
+  const getCustomers = async () => {
+    try {
+      const response = await fetch(API_URL_CUSTOMER);
+      if (!response.ok) throw Error("something went wrong getting customers");
+      const data = await response.json();
+      setCustomers(data.content);
+      setFetchError("");
+    } catch (err) {
+        setFetchError(err.message); // display message to user if fetch errors
+    }
+  } 
 
-  const addCustomer = (customer) => {
-    fetch(API_URL_CUSTOMER, {
-      method: "POST",
-      headers: {"Content-type" : "application/json"},
-      body: JSON.stringify(customer)
-    })
-    .then(response => {
-      if (response.ok) getCustomers();
-      else alert("something went wrong adding customer"); 
-    })
-    .catch(err => console.log(err));
-  }
+  const addCustomer = async (customer) => {
+    try {
+      const postOptions = {
+        method: "POST",
+        headers: {"Content-type" : "application/json"},
+        body: JSON.stringify(customer)
+      };
 
-  const deleteCustomer = (data) => {
-    if (window.confirm("Are you sure?")) {
-      fetch(data.links[0].href, {method: "DELETE"})
-      .then(response => {
-        if (response.ok) {
-          getCustomers();
-          setOpen(true);
-        }
-        else alert("something went wrong deleting customer");
-      })
-      .catch(err => console.log(err));  
+      const response = await fetch(API_URL_CUSTOMER, postOptions)
+      if (!response.ok) throw Error("something went wrong adding customer");
+      getCustomers();
+    } catch (err) {
+        setFetchError(err.message);
     }
   }
 
-  const updateCustomer = (url, customer) => {
-    fetch(url, {
-      method: "PUT",
-      headers: {"Content-type" : "application/json"},
-      body: JSON.stringify(customer)
-    })
-    .then(response => {
-      if (response.ok) getCustomers();
-      else alert("something went wrong editing customer");
-    })
-    .catch(err => console.log(err));
+  const deleteCustomer = async (data) => {
+    if (window.confirm("Are you sure?")) {
+      try {
+        const response = await fetch(data.links[0].href, {method: "DELETE"})
+        if (!response.ok) throw Error("something went wrong deleting customer");
+        getCustomers();
+        setOpen(!open);
+      } catch (err) {
+          setFetchError(err.message);
+      }  
+    }
+  }
+
+  const updateCustomer = async (url, customer) => {
+    try {
+      const updateOptions = {
+        method: "PUT",
+        headers: {"Content-type" : "application/json"},
+        body: JSON.stringify(customer)
+      };
+      const response = await fetch(url, updateOptions);
+      if (!response.ok) throw Error("something went wrong editing customer");
+      getCustomers();
+    } catch (err) {
+        setFetchError(err.message);
+    }
   }
 
   
-  const addTraining = (training) => {
-    fetch(API_URL_TRAINING, {
-      method: "POST",
-      headers: {"Content-type" : "application/json"},
-      body: JSON.stringify(training)
-    })
-    .then(response => {
-      if (response.ok) return;
-      else alert("something went wrong adding training")
-    })
-    .catch(err => console.log(err));
+  const addTraining = async (training) => {
+    try {
+      const postOptions = {
+        method: "POST",
+        headers: {"Content-type" : "application/json"},
+        body: JSON.stringify(training)
+      };
+
+      const response = await fetch(API_URL_TRAINING, postOptions);
+      if (!response.ok) throw Error("Something went wrong adding training");
+    } catch (err) {
+        setFetchError(err.message);
+    }
   }
 
   return (
     <>
-      {customers.length === 0 ? <Spinner /> :
+      {fetchError && <h2 style={{color: "red"}}>{fetchError}</h2>}
+      {!fetchError && customers.length === 0 ? <Spinner /> :
       <Box>
         <Stack direction="row" gap={5} sx={{margin: 1, justifyContent: "center"}}>
           <AddCustomer addCustomer={addCustomer}/>
