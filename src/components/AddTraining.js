@@ -31,7 +31,12 @@ export default function AddTraining({ customer, addTraining }) {
     setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true)}));
     setOpen(false);
     addTraining(training);
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 500); 
+    // I set a small delay before the app redirects to trainings page. Otherwise I noticed that the 
+    // trainings page does fetch too early and it didnt show newly added training. With timeout it started working 
+    // as should.
   }
 
   const changeDate = (date) => {
@@ -45,20 +50,24 @@ export default function AddTraining({ customer, addTraining }) {
 
   useEffect(() => {
      getTrainings();
-  }, [trainings])
+  }, [])
   
   useEffect(() => {
     filterTrainings();
   })
 
-  const getTrainings = () => {
-    fetch(API_URL_GETTRAINING)
-    .then(response => {
-      if (response.ok) return response.json();
-      else alert("something went wrong getting trainings")
-    })
-    .then(data => setTrainings(data))
-    .catch(err => console.log(err));
+  const getTrainings = async () => {
+    try {
+      const response = await fetch(API_URL_GETTRAINING);
+      if (response.ok) {
+        const data = await response.json();
+        setTrainings(data);
+      } else {
+        alert("something went wrong showing trainings");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   // loops through trainings and sets activities to own state. Only sets activity if it doesn't already exist.

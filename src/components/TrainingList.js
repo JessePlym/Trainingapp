@@ -33,14 +33,11 @@ export default function TrainingList() {
   const getTrainings = async () => {
     try {
       const response = await fetch(API_URL_GETTRAINING);
-      if (response.ok) {
-        const data = await response.json();
-        setTrainings(data);
-      } else {
-        alert("something went wrong showing trainings");
-      }
+      if (!response.ok) throw Error("something went wrong showing trainings");
+      const data = await response.json();
+      setTrainings(data);
     } catch (err) {
-      console.log(err.message);
+      alert(err.message);
     }
   }
 
