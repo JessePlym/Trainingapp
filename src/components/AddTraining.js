@@ -11,7 +11,6 @@ import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
-import { flushSync } from "react-dom";
 dayjs.extend(utc)
 
 export default function AddTraining({ customer, addTraining }) {
