@@ -16,7 +16,6 @@ function App() {
     <Container>
       <NavBar />
       <Routes>
-        <Route path="/PersonalTrainer" element={<TrainingList />}/>
         <Route exact path="/" element={<TrainingList />}/>
         <Route path="/customers" element={<CustomerList />}/>
         <Route path="/calendar" element={<Calendar />}/>
