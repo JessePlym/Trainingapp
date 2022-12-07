@@ -9,7 +9,7 @@ export default function Calendar() {
 
   useEffect(() => {
     getEvents();
-  }, [events])
+  }, [])
 
 
   const getEvents = () => {
