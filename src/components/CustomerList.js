@@ -21,9 +21,9 @@ export default function CustomerList() {
     {field: "city", headerName: "City", flex: 1},
     {field: "email", headerName: "Email", flex: 2},
     {field: "phone", headerName: "Phone", flex: 1.5},
-    {field: "add", headerName: "", flex: 1, renderCell: params => 
+    {field: "add", headerName: "", flex: 1, disableExport: true, renderCell: params => 
       <AddTraining customer={params} addTraining={addTraining}/>},
-    {field: "delete", headerName: "", flex: 1, renderCell: params => 
+    {field: "delete", headerName: "", flex: 1, disableExport: true, renderCell: params => 
       <Button 
         startIcon={<DeleteIcon />} 
         size="small"
@@ -31,7 +31,7 @@ export default function CustomerList() {
         onClick={() => deleteCustomer(params.row)}>
           Delete
       </Button>},
-    {field: "edit", headerName: "", flex: 1, renderCell: params =>
+    {field: "edit", headerName: "", flex: 1, disableExport: true, renderCell: params =>
       <EditCustomer data={params} updateCustomer={updateCustomer}/>  
     }
   ])
