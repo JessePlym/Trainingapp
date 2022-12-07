@@ -7,7 +7,7 @@ export const API_URL_CUSTOMER = "https://customerrest.herokuapp.com/api/customer
 export const API_URL_TRAINING = "https://customerrest.herokuapp.com/api/trainings";
 export const API_URL_GETTRAINING = "https://customerrest.herokuapp.com/gettrainings";
 export const PAGES = [
-  {name: "TRAININGS", link: "/", icon: <FitnessCenterIcon />}, 
+  {name: "TRAININGS", link: "/PersonalTrainer", icon: <FitnessCenterIcon />}, 
   {name: "CUSTOMERS", link: "/customers", icon: <PeopleIcon />},
   {name: "CALENDAR", link: "/calendar", icon: <EventIcon />},
   {name: "STATISTICS", link: "/statistics", icon: <LeaderboardIcon /> }
