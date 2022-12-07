@@ -28,7 +28,7 @@ export default function AddTraining({ customer, addTraining }) {
   const navigate = useNavigate();
 
   const handleAddTraining = () => {
-    setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true).toISOString()}));
+    setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true)}));
     setOpen(false);
     addTraining(training);
     setTimeout(() => {
