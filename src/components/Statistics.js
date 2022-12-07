@@ -26,23 +26,21 @@ export default function Statistics() {
     getActivities();
   }, [])
 
-  // sets only activity and duration from response data to activities state 
-  const getActivities = () => {
-    fetch(API_URL_GETTRAINING)
-    .then(response => {
-      if (response.ok) return response.json();
-      else alert("something went wrong showing trainings")
-    })
-    .then(data => {
+  // sets only activity and duration from response data to activities state
+  const getActivities = async () => {
+    try {
+      const response = await fetch(API_URL_GETTRAINING);
+      if (!response.ok) throw Error("Something went wrong");
+      const data = await response.json();
       setActivities(data.map((d) => {
         return (
           {activity: d.activity, duration: d.duration}
         );
-      }))
-
-    })
-    .catch(err => console.log(err));
-  }
+      }));
+    } catch (err) {
+      console.log(err.message);
+    }
+  } 
 
   return (
     <>
