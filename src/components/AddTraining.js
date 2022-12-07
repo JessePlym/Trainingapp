@@ -11,6 +11,7 @@ import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc"
+import { flushSync } from "react-dom";
 dayjs.extend(utc)
 
 export default function AddTraining({ customer, addTraining }) {
@@ -28,7 +29,7 @@ export default function AddTraining({ customer, addTraining }) {
   const navigate = useNavigate();
 
   const handleAddTraining = () => {
-    setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true)}));
+    setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true).toISOString()}));
     setOpen(false);
     addTraining(training);
     setTimeout(() => {
