@@ -13,11 +13,11 @@ export default function TrainingList() {
   const [columns] = useState([
     {field: "date", headerName: "Date", flex: 2 ,
       valueFormatter: params => params.value !== null ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
-    }, // MMMM displays full name of month and HH 24 hour clock. If date is null display empty string
+    }, // MMMM displays full name of month and HH 24 hour clock. If date is null render empty string
     {field: "activity", headerName: "Activity", flex: 1},
     {field: "duration", headerName: "Duration (min)", flex: 1},
     {field: "customer", headerName: "Customer", flex: 1,
-      renderCell: params => getFullName(params)
+      renderCell: params => params.value ? getFullName(params) : "" // render empty string if customer is null;
     },
     {field: "delete", headerName: "", flex: 1, renderCell: params => 
       <Button startIcon={<DeleteIcon />} size="small" color="error" onClick={() => deleteTraining(params.row.id)}> 
@@ -27,35 +27,42 @@ export default function TrainingList() {
   ])
 
   const getFullName = (params) => {
-    return `${params.value.firstname || ''} ${params.value.lastname || ''}`
+    return `${params.value.firstname || ''} ${params.value.lastname || ''}`;
   }
 
-  const getTrainings = () => {
-    fetch(API_URL_GETTRAINING)
-    .then(response => {
-      if (response.ok) return response.json();
-      else alert("something went wrong showing trainings")
-    })
-    .then(data => setTrainings(data))
-    .catch(err => console.log(err));
+  const getTrainings = async () => {
+    try {
+      const response = await fetch(API_URL_GETTRAINING);
+      if (response.ok) {
+        const data = await response.json();
+        setTrainings(data);
+      } else {
+        alert("something went wrong showing trainings");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
-  const deleteTraining = (id) => {
-    if (window.confirm("Are you sure?")) {
-      fetch(API_URL_TRAINING + "/" + id, {method: "DELETE"})
-      .then(response => {
+  const deleteTraining = async (id) => {
+    try {
+      if (window.confirm("Are you sure?")) {
+        const response = await fetch(`${API_URL_TRAINING}/${id}`, {method: "DELETE"});
         if (response.ok) {
           getTrainings();
           setOpen(true); // opens snackbar
-        } else alert("something went wrong deleting training");
-      })
-      .catch(err => console.log(err));
+        } else {
+          alert("something went wrong deleting training");
+        }
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   }
 
   useEffect(() => {
     getTrainings();
-  }, [trainings])
+  }, [])
 
   
 

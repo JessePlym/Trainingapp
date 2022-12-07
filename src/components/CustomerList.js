@@ -11,7 +11,7 @@ import Spinner from "./Spinner";
 export default function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false); // for snackbar
-  const [fetchError, setFetchError] = useState("");
+  const [fetchError, setFetchError] = useState(""); // error message to user
 
   const [columns] = useState([
     {field: "firstname", headerName: "Firstname", flex: 1},

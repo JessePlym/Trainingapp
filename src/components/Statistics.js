@@ -18,6 +18,7 @@ export default function Statistics() {
   // adds durations and activitynames to chartData by looping.
   // values in durations and activityNames are in corresponding order
   for (let i = 0; i < activityNames.length; i++) {
+    if (!activityNames[i]) continue; // continue to next iteration if activity is empty or null
     chartData.push({activity: activityNames[i], Duration: durations[i]});
   }
 
