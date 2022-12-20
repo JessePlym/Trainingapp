@@ -1,12 +1,11 @@
 import { Button, DialogTitle, 
   Dialog, DialogContent, 
   DialogActions, TextField, 
-  FormControl, Autocomplete, 
+  FormControl, 
   Stack, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL_GETTRAINING } from "../constants";
 import { DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -15,28 +14,23 @@ dayjs.extend(utc)
 
 export default function AddTraining({ customer, addTraining }) {
   const [open, setOpen] = useState(false);
-  const [trainings, setTrainings] = useState([]);
   const [training, setTraining] = useState(
     {
       date: null,
       activity: "",
       duration: 0,
-      customer: customer.id 
+      customer: {
+        id: customer.id
+      } 
     }
   )
-  const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
 
   const handleAddTraining = () => {
     setTraining(prevTraining => ({...prevTraining, date: dayjs(prevTraining.date).utc(true)}));
     setOpen(false);
     addTraining(training);
-    setTimeout(() => {
-      navigate("/");
-    }, 500); 
-    // I set a small delay before the app redirects to trainings page. Otherwise I noticed that the 
-    // trainings page does fetch too early and it didnt show newly added training. With timeout it started working 
-    // as should.
+    navigate("/");
   }
 
   const changeDate = (date) => {
@@ -45,40 +39,7 @@ export default function AddTraining({ customer, addTraining }) {
     } else {
       setTraining({...training, date: ""});
     }
-
-  }
-
-  useEffect(() => {
-     getTrainings();
-  }, [])
-  
-  useEffect(() => {
-    filterTrainings();
-  })
-
-  const getTrainings = async () => {
-    try {
-      const response = await fetch(API_URL_GETTRAINING);
-      if (response.ok) {
-        const data = await response.json();
-        setTrainings(data);
-      } else {
-        alert("something went wrong showing trainings");
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
-
-  // loops through trainings and sets activities to own state. Only sets activity if it doesn't already exist.
-  // Activities are used for Autocomplete options
-  const filterTrainings = useCallback(() => {
-    trainings.forEach((training) => {
-      if (!(activities.includes(training.activity))) {
-        setActivities([...activities, training.activity]);
-      }
-    })
-  }, [trainings, activities])
+  } 
 
   return (
     <>
@@ -123,12 +84,11 @@ export default function AddTraining({ customer, addTraining }) {
           </Stack>
           <Stack direction="row" width="auto">
             <FormControl fullWidth>
-              <Autocomplete
-                options={activities}
-                freeSolo
-                autoSelect
-                renderInput={(params) => <TextField {...params} label="Training"/>}
-                onChange={(e, newValue) => setTraining({...training, activity: newValue})}
+              <TextField
+                value={training.activity}
+                label="Training"
+                margin="dense"
+                onChange={e => setTraining({...training, activity: e.target.value})}
               />
             </FormControl>
           </Stack>

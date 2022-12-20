@@ -11,9 +11,9 @@ export default function EditCustomer({ data, updateCustomer}) {
     setOpen(!open);
     if (open === false) {
       setCustomer({
-        firstname: data.row.firstname,
-        lastname: data.row.lastname,
-        streetaddress: data.row.streetaddress,
+        firstName: data.row.firstName,
+        lastName: data.row.lastName,
+        streetAddress: data.row.streetAddress,
         postcode: data.row.postcode,
         city: data.row.city,
         email: data.row.email,
@@ -23,7 +23,7 @@ export default function EditCustomer({ data, updateCustomer}) {
   }
 
   const handleUpdate = () => {
-    updateCustomer(data.id, customer);
+    updateCustomer(data.row.id, customer);
     setOpen(false);
   }
   return (
@@ -39,31 +39,31 @@ export default function EditCustomer({ data, updateCustomer}) {
         <DialogTitle>Edit Customer Information</DialogTitle>
         <DialogContent>
         <TextField 
-            value={customer.firstname}
+            value={customer.firstName}
             label="firstname"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, firstname: e.target.value})}
+            onChange={e => setCustomer({...customer, firstName: e.target.value})}
           />
           <TextField 
-            value={customer.lastname}
+            value={customer.lastName}
             label="lastname"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, lastname: e.target.value})}
+            onChange={e => setCustomer({...customer, lastName: e.target.value})}
           />
           <TextField 
-            value={customer.streetaddress}
+            value={customer.streetAddress}
             label="streetaddress"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, streetaddress: e.target.value})}
+            onChange={e => setCustomer({...customer, streetAddress: e.target.value})}
           />
           <TextField 
             value={customer.postcode}

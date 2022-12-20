@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { API_URL_CUSTOMER, API_URL_TRAINING } from "../constants";
+import React, {useState} from "react";
+import { BASE_API_URL } from "../constants";
 import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Button, Snackbar, Alert, Stack, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,49 +8,38 @@ import EditCustomer from "./EditCustomer"
 import AddTraining from "./AddTraining";
 import Spinner from "./Spinner";
 
-export default function CustomerList() {
-  const [customers, setCustomers] = useState([]);
+export default function CustomerList({
+  customers,
+  getCustomers, 
+  fetchError, 
+  setFetchError, 
+  getTrainings
+}) {
   const [open, setOpen] = useState(false); // for snackbar
-  const [fetchError, setFetchError] = useState(""); // error message to user
-
   const [columns] = useState([
-    {field: "firstname", headerName: "Firstname", flex: 1},
-    {field: "lastname", headerName: "Lastname", flex: 1},
-    {field: "streetaddress", headerName: "Streetaddress", flex: 2},
+    {field: "firstName", headerName: "Firstname", flex: 1},
+    {field: "lastName", headerName: "Lastname", flex: 1},
+    {field: "streetAddress", headerName: "Streetaddress", flex: 2},
     {field: "postcode", headerName: "Postcode", flex: 1},
     {field: "city", headerName: "City", flex: 1},
     {field: "email", headerName: "Email", flex: 2},
     {field: "phone", headerName: "Phone", flex: 1.5},
-    {field: "add", headerName: "", flex: 1, disableExport: true, renderCell: params => 
-      <AddTraining customer={params} addTraining={addTraining}/>},
+    {field: "add", headerName: "", flex: 1, disableExport: true, renderCell: params =>
+      <AddTraining
+        customer={params}
+        addTraining={addTraining}/>},
     {field: "delete", headerName: "", flex: 1, disableExport: true, renderCell: params => 
       <Button 
         startIcon={<DeleteIcon />} 
         size="small"
         color="error" 
-        onClick={() => deleteCustomer(params.row)}>
+        onClick={() => deleteCustomer(params.row.id)}>
           Delete
       </Button>},
     {field: "edit", headerName: "", flex: 1, disableExport: true, renderCell: params =>
       <EditCustomer data={params} updateCustomer={updateCustomer}/>  
     }
   ])
-  
-  useEffect(() => {
-    getCustomers();
-  }, [])
-  
-  const getCustomers = async () => {
-    try {
-      const response = await fetch(API_URL_CUSTOMER);
-      if (!response.ok) throw Error("something went wrong getting customers");
-      const data = await response.json();
-      setCustomers(data.content);
-      setFetchError("");
-    } catch (err) {
-        setFetchError(err.message); // display message to user if fetch errors
-    }
-  } 
 
   const addCustomer = async (customer) => {
     try {
@@ -60,7 +49,7 @@ export default function CustomerList() {
         body: JSON.stringify(customer)
       };
 
-      const response = await fetch(API_URL_CUSTOMER, postOptions)
+      const response = await fetch(`${BASE_API_URL}/customers`, postOptions)
       if (!response.ok) throw Error("something went wrong adding customer");
       getCustomers();
     } catch (err) {
@@ -68,12 +57,13 @@ export default function CustomerList() {
     }
   }
 
-  const deleteCustomer = async (data) => {
+  const deleteCustomer = async (id) => {
     if (window.confirm("Are you sure?")) {
       try {
-        const response = await fetch(data.links[0].href, {method: "DELETE"})
+        const response = await fetch(`${BASE_API_URL}/customers/${id}`, {method: "DELETE"})
         if (!response.ok) throw Error("something went wrong deleting customer");
         getCustomers();
+        getTrainings();
         setOpen(!open);
       } catch (err) {
           setFetchError(err.message);
@@ -81,21 +71,20 @@ export default function CustomerList() {
     }
   }
 
-  const updateCustomer = async (url, customer) => {
+  const updateCustomer = async (id, customer) => {
     try {
       const updateOptions = {
         method: "PUT",
         headers: {"Content-type" : "application/json"},
         body: JSON.stringify(customer)
       };
-      const response = await fetch(url, updateOptions);
+      const response = await fetch(`${BASE_API_URL}/customers/${id}`, updateOptions);
       if (!response.ok) throw Error("something went wrong editing customer");
       getCustomers();
     } catch (err) {
         setFetchError(err.message);
     }
   }
-
   
   const addTraining = async (training) => {
     try {
@@ -105,8 +94,9 @@ export default function CustomerList() {
         body: JSON.stringify(training)
       };
 
-      const response = await fetch(API_URL_TRAINING, postOptions);
+      const response = await fetch(`${BASE_API_URL}/trainings`, postOptions);
       if (!response.ok) throw Error("Something went wrong adding training");
+      getTrainings();
     } catch (err) {
         setFetchError(err.message);
     }
@@ -122,7 +112,6 @@ export default function CustomerList() {
         </Stack>
         <Box sx={{ height: 600, width: "100%", margin: "auto" }}>
           <DataGrid
-            getRowId={(row) => row.links[0].href}
             rows={customers}
             columns={columns}
             autoPageSize

@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from "react";
-import { API_URL_GETTRAINING, API_URL_TRAINING } from "../constants";
+import React, { useState } from "react";
+import { BASE_API_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { Button, Snackbar, Alert, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Spinner from "./Spinner";
 
-export default function TrainingList() {
-  const [trainings, setTrainings] = useState([]);
+export default function TrainingList({ trainings, getTrainings }) {
   const [open, setOpen] = useState(false); // for opening snackbar
 
   const [columns] = useState([
@@ -27,41 +26,21 @@ export default function TrainingList() {
   ])
 
   const getFullName = (params) => {
-    return `${params.value.firstname || ''} ${params.value.lastname || ''}`;
-  }
-
-  const getTrainings = async () => {
-    try {
-      const response = await fetch(API_URL_GETTRAINING);
-      if (!response.ok) throw Error("something went wrong showing trainings");
-      const data = await response.json();
-      setTrainings(data);
-    } catch (err) {
-      alert(err.message);
-    }
+    return `${params.value.firstName || ''} ${params.value.lastName || ''}`;
   }
 
   const deleteTraining = async (id) => {
     try {
       if (window.confirm("Are you sure?")) {
-        const response = await fetch(`${API_URL_TRAINING}/${id}`, {method: "DELETE"});
-        if (response.ok) {
-          getTrainings();
-          setOpen(true); // opens snackbar
-        } else {
-          alert("something went wrong deleting training");
-        }
+        const response = await fetch(`${BASE_API_URL}/trainings/${id}`, {method: "DELETE"});
+        if (!response.ok) throw Error("Something went wrong deleting training!")
+        getTrainings();
+        setOpen(!open); // opens snackbar
       }
     } catch (err) {
-      console.log(err.message);
+      alert(err.message);
     }
-  }
-
-  useEffect(() => {
-    getTrainings();
-  }, [])
-
-  
+  }  
 
   return (
     <>

@@ -33,35 +33,35 @@ export default function AddCustomer({ addCustomer }) {
         </DialogTitle>
         <DialogContent>
           <TextField 
-            value={customer.firstname}
-            label="firstname"
+            value={customer.firstName}
+            label="Firstname"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, firstname: e.target.value})}
+            onChange={e => setCustomer({...customer, firstName: e.target.value})}
           />
           <TextField 
-            value={customer.lastname}
-            label="lastname"
+            value={customer.lastName}
+            label="Lastname"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, lastname: e.target.value})}
+            onChange={e => setCustomer({...customer, lastName: e.target.value})}
           />
           <TextField 
-            value={customer.streetaddress}
-            label="streetaddress"
+            value={customer.streetAddress}
+            label="Streetaddress"
             margin="dense"
             type="text"
             fullWidth
             variant="standard"
-            onChange={e => setCustomer({...customer, streetaddress: e.target.value})}
+            onChange={e => setCustomer({...customer, streetAddress: e.target.value})}
           />
           <TextField 
             value={customer.postcode}
-            label="postcode"
+            label="Postcode"
             margin="dense"
             type="number"
             fullWidth
@@ -70,7 +70,7 @@ export default function AddCustomer({ addCustomer }) {
           />
           <TextField 
             value={customer.city}
-            label="city"
+            label="City"
             margin="dense"
             type="text"
             fullWidth
@@ -79,7 +79,7 @@ export default function AddCustomer({ addCustomer }) {
           />
           <TextField 
             value={customer.email}
-            label="email"
+            label="Email"
             margin="dense"
             type="email"
             fullWidth
@@ -88,7 +88,7 @@ export default function AddCustomer({ addCustomer }) {
           />
           <TextField 
             value={customer.phone}
-            label="phone"
+            label="Phone"
             margin="dense"
             type="text"
             fullWidth
