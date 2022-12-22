@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ backgroundColor: "#E880cd"}}>
           <DrawerMenu />
           <Typography variant="h5" sx={{ marginRight: "auto"}}>
             Personal Trainer

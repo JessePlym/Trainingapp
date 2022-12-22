@@ -46,7 +46,10 @@ function App() {
 
   return (
     <>
-    <Container maxWidth="xl" ref={containerRef}>
+    <Container
+      maxWidth="xl"
+      ref={containerRef}  
+    >
       <NavBar />
       <Routes>
         <Route exact path="/" element={

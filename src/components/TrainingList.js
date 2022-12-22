@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { BASE_API_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 import { Button, Snackbar, Alert, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Spinner from "./Spinner";
+import dayjs from "dayjs";
 
 export default function TrainingList({ trainings, getTrainings }) {
   const [open, setOpen] = useState(false); // for opening snackbar
 
   const [columns] = useState([
     {field: "date", headerName: "Date", flex: 2 ,
-      valueFormatter: params => params.value !== null ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
+      valueFormatter: params => params.value ? dayjs(params.value.substring(0, 19)).format("DD MMMM YYYY HH:mm") : ""
     }, // MMMM displays full name of month and HH 24 hour clock. If date is null render empty string
     {field: "activity", headerName: "Activity", flex: 1},
     {field: "duration", headerName: "Duration (min)", flex: 1},
@@ -64,7 +64,7 @@ export default function TrainingList({ trainings, getTrainings }) {
       <Snackbar 
         open={open}
         anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-        autoHideDuration={6000} 
+        autoHideDuration={4000} 
         onClose={() => setOpen(false)}>
         <Alert 
           onClose={() => setOpen(false)} 
