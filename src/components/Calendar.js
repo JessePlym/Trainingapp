@@ -1,28 +1,9 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useEffect, useState } from "react";
-import { API_URL_GETTRAINING } from "../constants";
+import dayjs from "dayjs";
 
-export default function Calendar() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    getEvents();
-  }, [])
-
-
-  const getEvents = () => {
-    fetch(API_URL_GETTRAINING)
-    .then(response => {
-      if (response.ok) return response.json();
-      else alert("something went wrong showing trainings")
-    })
-    .then(data => setEvents(data))
-    .catch(err => console.log(err));
-  }
-
- 
+export default function Calendar({ trainings }) {
 
   return (
     <>
@@ -40,10 +21,11 @@ export default function Calendar() {
           minute: "2-digit",
           hour12: false
         }}
-        events={events.map((event) => {
+        events={trainings.map((event) => {
           return ({
-            title: event.customer !== null ? `${event.activity} / ${event.customer.firstname} ${event.customer.lastname}`: "",
-            start: event.date !== null ? event.date : ""
+            title: event.customer ? `${event.activity} / ${event.customer.firstName} ${event.customer.lastName}`: "",
+            start: event.date ? event.date : "",
+            end: event.date ? dayjs(event.date).utc(true).add(event.duration, "minutes").toISOString() : ""
           })
         }
         )}

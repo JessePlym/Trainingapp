@@ -4,7 +4,7 @@ import Calendar from "./components/Calendar";
 import NavBar from "./components/NavBar";
 import Statistics from "./components/Statistics";
 import PageNotFound from "./components/PageNotFound";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Container } from "@mui/material";
 import { Routes, Route } from "react-router-dom"
 import { BASE_API_URL } from "./constants";
@@ -15,6 +15,7 @@ function App() {
   const [trainings, setTrainings] = useState([]);
   const [fetchError, setFetchError] = useState(""); // error message to user
 
+  const containerRef = useRef();
   useEffect(() => {
     getCustomers();
     getTrainings();
@@ -42,9 +43,10 @@ function App() {
       alert(err.message);
     }
   }
+
   return (
     <>
-    <Container>
+    <Container maxWidth="xl" ref={containerRef}>
       <NavBar />
       <Routes>
         <Route exact path="/" element={
@@ -62,8 +64,12 @@ function App() {
             setFetchError={setFetchError}
           />}
         />
-        <Route path="/calendar" element={<Calendar />}/>
-        <Route path="/statistics" element={<Statistics />} />
+        <Route path="/calendar" element={<Calendar trainings={trainings}/>}/>
+        <Route path="/statistics" element={
+          <Statistics
+            trainings={trainings}
+            containerRef={containerRef}
+          />} />
         <Route path="*" element={<PageNotFound />}/>
       </Routes>
     </Container>

@@ -1,11 +1,12 @@
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import { BarChart, XAxis, YAxis, Bar, Tooltip, Legend } from "recharts";
-import { API_URL_GETTRAINING } from "../constants";
 import Spinner from "./Spinner";
+import useWindowSize from "../hooks/useWindowSize";
 
-export default function Statistics() {
+export default function Statistics({ trainings, containerRef }) {
   const [activities, setActivities] = useState([]);
+  const { width } = useWindowSize(containerRef);
   
   const chartData = [];
   
@@ -22,30 +23,23 @@ export default function Statistics() {
     chartData.push({activity: activityNames[i], Duration: durations[i]});
   }
 
+  // sets only activity and duration activities state
   useEffect(() => {
-    getActivities();
-  }, [])
-
-  // sets only activity and duration from response data to activities state
-  const getActivities = async () => {
-    try {
-      const response = await fetch(API_URL_GETTRAINING);
-      if (!response.ok) throw Error("Something went wrong");
-      const data = await response.json();
-      setActivities(data.map((d) => {
+    const getActivities = () => {
+      setActivities(trainings.map((t) => {
         return (
-          {activity: d.activity, duration: d.duration}
+          {activity: t.activity, duration: t.duration}
         );
       }));
-    } catch (err) {
-      console.log(err.message);
     }
-  } 
+    getActivities();
+  }, [trainings])
 
+  
   return (
     <>
     { chartData.length === 0 ? <Spinner /> :
-      <BarChart width={1100} height={300} data={chartData} margin={{top: 20}} padding={{left: 10}}>
+      <BarChart width={width - 24} height={300} data={chartData} margin={{top: 20}} padding={{left: 10}}>
         <XAxis dataKey="activity"/>
         <YAxis label={{value: "Duration (min)", angle: -90, position: "insideLeft"}} />
         <Tooltip />
