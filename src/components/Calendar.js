@@ -2,14 +2,17 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayjs from "dayjs";
+import useWindowSize from "../hooks/useWindowSize";
 
-export default function Calendar({ trainings }) {
+export default function Calendar({ trainings, containerRef }) {
+  const { height } = useWindowSize(containerRef)
 
   return (
     <>
       <FullCalendar
         plugins={[ dayGridPlugin, timeGridPlugin ]}
         initialView="dayGridMonth"
+        height={height}
         headerToolbar={{
           start: "today,prev,next",
           center: "title",

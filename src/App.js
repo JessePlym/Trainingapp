@@ -64,7 +64,11 @@ function App() {
             setFetchError={setFetchError}
           />}
         />
-        <Route path="/calendar" element={<Calendar trainings={trainings}/>}/>
+        <Route path="/calendar" element={
+          <Calendar
+            trainings={trainings}
+            containerRef={containerRef}
+          />}/>
         <Route path="/statistics" element={
           <Statistics
             trainings={trainings}
