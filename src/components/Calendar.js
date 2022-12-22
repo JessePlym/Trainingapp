@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import useWindowSize from "../hooks/useWindowSize";
 
 export default function Calendar({ trainings, containerRef }) {
-  const { height } = useWindowSize(containerRef)
+  const { height } = useWindowSize(containerRef);
 
   return (
     <>
